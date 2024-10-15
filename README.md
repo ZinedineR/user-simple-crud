@@ -1,8 +1,8 @@
-# BookSPI
+# API Documentation
 
 ## Description
 
-This is Books API with simple hash validation
+This is API Documentation of simple crud api
 
 ## Architecture
 
