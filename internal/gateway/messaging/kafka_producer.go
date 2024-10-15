@@ -3,8 +3,8 @@ package messaging
 import (
 	"context"
 	"encoding/json"
-	kafkaserver "github.com/RumbiaID/pkg-library/app/pkg/broker/kafkaservice"
 	"log/slog"
+	kafkaserver "user-simple-crud/pkg/broker/kafkaservice"
 
 	"github.com/segmentio/kafka-go"
 )

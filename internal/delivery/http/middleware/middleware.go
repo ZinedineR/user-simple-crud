@@ -1,6 +1,6 @@
 package api
 
-import "boiler-plate-clean/internal/delivery/http"
+import "user-simple-crud/internal/delivery/http"
 
 type Middleware struct {
 	http.Handler

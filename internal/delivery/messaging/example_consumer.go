@@ -1,11 +1,11 @@
 package messaging
 
 import (
-	"boiler-plate-clean/internal/model"
 	"context"
 	"encoding/json"
 	"github.com/segmentio/kafka-go"
 	"log/slog"
+	"user-simple-crud/internal/model"
 )
 
 type ExampleConsumer struct {

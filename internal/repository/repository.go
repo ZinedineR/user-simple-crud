@@ -1,13 +1,13 @@
 package repository
 
 import (
-	"boiler-plate-clean/internal/model"
-	"boiler-plate-clean/pkg/pagination"
 	"context"
 	"errors"
 	"log/slog"
 	"reflect"
 	"strings"
+	"user-simple-crud/internal/model"
+	"user-simple-crud/pkg/pagination"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"

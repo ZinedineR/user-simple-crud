@@ -1,28 +1,34 @@
 package route
 
 import (
-	"boiler-plate-clean/internal/delivery/http"
 	"github.com/gin-gonic/gin"
+	"user-simple-crud/internal/delivery/http"
+	api "user-simple-crud/internal/delivery/http/middleware"
 )
 
 type Router struct {
 	App            *gin.Engine
-	ExampleHandler *http.ExampleHTTPHandler
+	UserHandler    *http.UserHTTPHandler
+	AuthMiddleware *api.AuthMiddleware
 }
 
 func (h *Router) Setup() {
-	api := h.App.Group("")
+	h.App.Use(h.AuthMiddleware.ErrorHandler)
+	guestApi := h.App.Group("/auth")
 	{
-
-		//Example Routes
-		campaignApi := api.Group("/campaign")
-		//campaignApi.Use(h.RequestMiddleware.RequestHeader)
+		guestApi.POST("/register", h.UserHandler.Register)
+		guestApi.POST("/login", h.UserHandler.Login)
+	}
+	coreApi := h.App.Group("")
+	coreApi.Use(h.AuthMiddleware.JWTAuthentication)
+	{
+		userApi := coreApi.Group("/users")
 		{
-			campaignApi.POST("/", h.ExampleHandler.Create)
-			campaignApi.GET("/select", h.ExampleHandler.Find)
-			campaignApi.GET("/:id", h.ExampleHandler.FindOne)
-			campaignApi.PUT("/:id", h.ExampleHandler.Update)
-			campaignApi.DELETE("/:id", h.ExampleHandler.Delete)
+			userApi.POST("", h.UserHandler.Create)
+			userApi.GET("", h.UserHandler.List)
+			userApi.GET("/:id", h.UserHandler.FindOne)
+			userApi.PUT("/:id", h.UserHandler.Update)
+			userApi.DELETE("/:id", h.UserHandler.Delete)
 		}
 	}
 }

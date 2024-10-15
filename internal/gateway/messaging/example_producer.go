@@ -1,8 +1,8 @@
 package messaging
 
 import (
-	"boiler-plate-clean/internal/model"
 	"context"
+	"user-simple-crud/internal/model"
 )
 
 type ExampleProducer interface {

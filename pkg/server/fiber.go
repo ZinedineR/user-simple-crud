@@ -27,7 +27,7 @@ type FiberConfig struct {
 //		EnablePrintRoutes: false,
 //	})
 //
-//	// Register global middleware
+//	// Create global middleware
 //	app.Use(recover.New(recover.Config{
 //		EnableStackTrace: true,
 //	}))

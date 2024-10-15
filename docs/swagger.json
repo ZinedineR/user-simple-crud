@@ -1,0 +1,560 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample server celler server.",
+        "title": "user-simple-crud",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:9004",
+    "basePath": "/",
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "description": "Authenticates the user and returns an access token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "User login",
+                "parameters": [
+                    {
+                        "description": "Login Request",
+                        "name": "login",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user-simple-crud_internal_entity.UserLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/user-simple-crud_internal_delivery_http_response.DataResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/user-simple-crud_internal_services.UserLoginResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "$ref": "#/definitions/user-simple-crud_internal_delivery_http_response.DataResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "description": "Registers a new user with the provided username and password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Register a new user",
+                "parameters": [
+                    {
+                        "description": "Registration Request",
+                        "name": "register",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user-simple-crud_internal_entity.UserLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/user-simple-crud_internal_delivery_http_response.DataResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/user-simple-crud_internal_entity.UserLogin"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "$ref": "#/definitions/user-simple-crud_internal_delivery_http_response.DataResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "description": "Retrieves a paginated list of users with optional ordering and filtering",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "List users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "format: Bearer \u003cJWT TOKEN\u003e",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Number of items per page",
+                        "name": "pageSize",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter rules\u003cbr\u003e\u003cbr\u003e### Rules Filter\u003cbr\u003erule:\u003cbr\u003e  * {Name of Field}:{value}:{Symbol}\u003cbr\u003e\u003cbr\u003eSymbols:\u003cbr\u003e  * eq (=)\u003cbr\u003e  * lt (\u003c)\u003cbr\u003e  * gt (\u003e)\u003cbr\u003e  * lte (\u003c=)\u003cbr\u003e  * gte (\u003e=)\u003cbr\u003e  * in (in)\u003cbr\u003e  * like (like)\u003cbr\u003e\u003cbr\u003eField list:\u003cbr\u003e  * id\u003cbr\u003e  * username\u003cbr\u003e  * email",
+                        "name": "filter",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort rules:\u003cbr\u003e\u003cbr\u003e### Rules Sort\u003cbr\u003erule:\u003cbr\u003e  * {Name of Field}:{Symbol}\u003cbr\u003e\u003cbr\u003eSymbols:\u003cbr\u003e  * asc\u003cbr\u003e  * desc\u003cbr\u003e\u003cbr\u003eField list:\u003cbr\u003e  * id\u003cbr\u003e  * title\u003cbr\u003e  * isbn\u003cbr\u003e  * author_id",
+                        "name": "sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/user-simple-crud_internal_delivery_http_response.PaginationResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/user-simple-crud_internal_entity.User"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "$ref": "#/definitions/user-simple-crud_internal_model.Pagination"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "$ref": "#/definitions/user-simple-crud_internal_delivery_http_response.DataResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Creates a new book with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a new book",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "format: Bearer \u003cJWT TOKEN\u003e",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "User Request",
+                        "name": "notification-list",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user-simple-crud_internal_entity.UserLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/user-simple-crud_internal_delivery_http_response.DataResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/user-simple-crud_internal_entity.UserLogin"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "$ref": "#/definitions/user-simple-crud_internal_delivery_http_response.DataResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "description": "Retrieves the details of a specific book by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get details of a book",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "format: Bearer \u003cJWT TOKEN\u003e",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID (UUID format)",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/user-simple-crud_internal_delivery_http_response.DataResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/user-simple-crud_internal_entity.User"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "$ref": "#/definitions/user-simple-crud_internal_delivery_http_response.DataResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates an existing book with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update an existing book",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "format: Bearer \u003cJWT TOKEN\u003e",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID (UUID format)",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated User details",
+                        "name": "book",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user-simple-crud_internal_entity.UserLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/user-simple-crud_internal_delivery_http_response.DataResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/user-simple-crud_internal_entity.UserLogin"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "$ref": "#/definitions/user-simple-crud_internal_delivery_http_response.DataResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes an existing book by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete an existing book",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "format: Bearer \u003cJWT TOKEN\u003e",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID (UUID format)",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/user-simple-crud_internal_delivery_http_response.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "error",
+                        "schema": {
+                            "$ref": "#/definitions/user-simple-crud_internal_delivery_http_response.SuccessResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "user-simple-crud_internal_delivery_http_response.DataResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "responseCode": {
+                    "type": "integer"
+                },
+                "responseMessage": {}
+            }
+        },
+        "user-simple-crud_internal_delivery_http_response.PaginationResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "pagination": {},
+                "responseCode": {
+                    "type": "integer"
+                },
+                "responseMessage": {}
+            }
+        },
+        "user-simple-crud_internal_delivery_http_response.SuccessResponse": {
+            "type": "object",
+            "properties": {
+                "responseCode": {
+                    "type": "integer"
+                },
+                "responseMessage": {}
+            }
+        },
+        "user-simple-crud_internal_entity.User": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "john_doe@example.com"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123e4567-e89b-12d3-a456-426614174000"
+                },
+                "password": {
+                    "description": "Example of bcrypt-hashed password",
+                    "type": "string",
+                    "example": "$2a$12$eixZaYVK1fsbw1ZfbX3OXe.PZyWJQ0Zf10hErsTQ6FVRHiA2vwLHu"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "john_doe"
+                }
+            }
+        },
+        "user-simple-crud_internal_entity.UserLogin": {
+            "type": "object",
+            "required": [
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "john_doe@example.com"
+                },
+                "password": {
+                    "description": "\"password\" custom validation assumed",
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "SecurePass123!"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "john_doe"
+                }
+            }
+        },
+        "user-simple-crud_internal_model.Pagination": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "description": "The size of the page",
+                    "type": "integer",
+                    "example": 10
+                },
+                "page": {
+                    "description": "The current page",
+                    "type": "integer",
+                    "example": 1
+                },
+                "total_pages": {
+                    "description": "The total number of pages",
+                    "type": "integer",
+                    "example": 5
+                },
+                "total_row_per_page": {
+                    "description": "The total number of data per page",
+                    "type": "integer",
+                    "example": 10
+                },
+                "total_rows": {
+                    "description": "The total number of data",
+                    "type": "integer",
+                    "example": 50
+                }
+            }
+        },
+        "user-simple-crud_internal_services.UserLoginResponse": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "john_doe@example.com"
+                },
+                "token": {
+                    "description": "JWT token example",
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "john_doe"
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "OpenAPI",
+        "url": "https://swagger.io/resources/open-api/"
+    }
+}

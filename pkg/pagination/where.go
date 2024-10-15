@@ -1,10 +1,10 @@
 package pagination
 
 import (
-	"boiler-plate-clean/internal/model"
 	"fmt"
 	"gorm.io/gorm"
 	"strings"
+	"user-simple-crud/internal/model"
 )
 
 func Where(filter model.FilterParams, query *gorm.DB) *gorm.DB {

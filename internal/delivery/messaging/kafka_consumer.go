@@ -2,9 +2,9 @@ package messaging
 
 import (
 	"context"
-	kafkaserver "github.com/RumbiaID/pkg-library/app/pkg/broker/kafkaservice"
 	"github.com/segmentio/kafka-go"
 	"log/slog"
+	kafkaserver "user-simple-crud/pkg/broker/kafkaservice"
 )
 
 type ConsumerKafkaHandler func(ctx context.Context, message *kafka.Message) error
